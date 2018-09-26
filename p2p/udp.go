@@ -2,18 +2,18 @@ package p2p
 
 import (
 	"fmt"
-
 	"lightningdog-app.com/common"
+	"net"
 )
 
 const (
-	P2P_UDP_PORT = "6025"
-	P2P_UDP_HOST = "172.0.0.1"
+	P2P_UDP_PORT     = "6025"
+	P2P_UDP_HOST     = "172.0.0.1"
+	P2P_UDP_BUF_SIZE = 1280
 )
 
 func Loop() {
-	loopAddr := P2P_UDP_HOST + ":" + P2P_UDP_PORT
-	udpAddr, err = net.ResolveUDPAddr("udp4", loopAddr)
+	udpAddr, err = genUDPAddr()
 	if err != nil {
 		fmt.Println("fail to listen local address")
 	}
@@ -25,7 +25,7 @@ func Loop() {
 	}
 
 	defer conn.Close()
-	buf := make([512]byte)
+	buf := make([P2P_UDP_BUF_SIZE]byte)
 	for {
 		_, remoteAddr, err := conn.ReadFromUDP(buf)
 		if err != nil {
@@ -34,6 +34,11 @@ func Loop() {
 
 		go handleData(&remoteAddr, buf, len)
 	}
+}
+
+func genUDPAddr() (net.UDPAddr, error) {
+	loopAddr := P2P_UDP_HOST + ":" + P2P_UDP_PORT
+	return net.ResolveUDPAddr("udp4", loopAddr)
 }
 
 func handleData(remoteAddr *net.UDPAddr, buf []byte) {

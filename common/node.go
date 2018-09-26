@@ -1,31 +1,31 @@
 package common
 
-type DeviceServiceDesc struct {
+type NodeDesc struct {
 	RemoteDomainIP string
 	MacAddr        string
 	ExtraMessage   interface{}
 }
 
-type DeviceService struct {
+type Node struct {
 	Name string
 
 	HashIP string
-	Desc   DeviceServiceDesc
+	Desc   NodeDesc
 	IP     P2P_IP
 
 	publicKey  string
 	privateKey string
 }
 
-func isCluster(service1 DeviceServiceDesc, service2 DeviceService) bool {
-	return service1.Name == service2.Name
+func isCluster(node1 Node, node2 Node) bool {
+	return node1.Name == node2.Name
 }
 
 func genSecretKey(nonce string) (string, string) {
 
 }
 
-func (service DeviceService) genHashIP() string {
+func (node Node) genHashIP() string {
 	jsonStr := json.Marshal(service.Desc)
 
 	sha := sha256.New()
