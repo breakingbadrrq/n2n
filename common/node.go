@@ -11,10 +11,11 @@ type Node struct {
 
 	HashIP string
 	Desc   NodeDesc
+	Nonce  uint64
 	IP     P2P_IP
 
-	publicKey  string
-	privateKey string
+	PublicKey  string
+	PrivateKey string
 }
 
 func isCluster(node1 Node, node2 Node) bool {

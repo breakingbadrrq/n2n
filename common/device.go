@@ -29,19 +29,19 @@ type DevDesc struct {
 type Device struct {
 	HashIP string
 
-	Desc    DevDesc
-	PinCode string
-	IP      P2P_IP
+	Desc  DevDesc
+	Nonce uint64
+	IP    P2P_IP
 
-	publicKey  string
-	privateKey string
+	PublicKey  string
+	PrivateKey string
 }
 
 func (dev Device) genHashIP() string {
 	jsonStr := json.Marshal(dev.Desc)
 	sha := sha256.New()
 	sha.Write([]byte(jsonStr))
-	sha.Write([]byte(dev.PinCode))
+	sha.Write([]byte(dev.Nonce))
 
 	return base64.StdEncoding.EncodeToString(sha.Sum(nil))
 }
