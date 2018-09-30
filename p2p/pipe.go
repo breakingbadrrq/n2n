@@ -7,15 +7,15 @@ const (
 	TCP string = "tcp"
 )
 
-type PingPong interface { //物理加密通道
+type PingPong interface { //物理通道, 注册NAT信息
 	Ping() error
 	Pong() error
-	Exchange() error
 
+	Exchange() error
 	WaitLoop() error
 }
 
-type PipeProtocal interface { // 建立 P2P 通道（通过交换 NAT信息）
+type PipeProtocol interface { // 建立 P2P 通道
 	HandShake() error
 	WaitLoop() error
 }
@@ -26,5 +26,5 @@ type Pipe struct {
 	SendChan chan []byte
 	RecvChan chan []byte
 
-	protocal PipeProtocal
+	protocol PipeProtocol
 }
