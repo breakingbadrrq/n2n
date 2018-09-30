@@ -7,9 +7,34 @@ import (
 )
 
 const (
-	P2P_UDP_PORT     = "6025"
+	P2P_UDP_PORT     = "6024"
 	P2P_UDP_HOST     = "172.0.0.1"
 	P2P_UDP_BUF_SIZE = 1280
+)
+
+type (
+	Ping struct {
+		Version  uint
+		From, To EndPoint
+
+		Expiration uint64
+		Rest       rlp.RawValue `rpl:"tail"`
+	}
+
+	Pong struct {
+		To      EndPoint
+		ReplyOk []byte
+
+		Expiration uint64
+		Rest       rlp.RawValue `rpl:"tail"`
+	}
+
+	EndPoint struct {
+		HashIP []byte
+		Desc   interface{}
+
+		LocalIP uint64
+	}
 )
 
 func Loop() {
